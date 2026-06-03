@@ -1,0 +1,2457 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>REIG Best Investor Match Form</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #111827;
+      --muted: #5b6472;
+      --line: #d7dde8;
+      --soft: #f5f7fb;
+      --panel: #ffffff;
+      --navy: #18243a;
+      --blue: #1b75bc;
+      --blue-deep: #145a91;
+      --teal: #17706d;
+      --green: #168464;
+      --orange: #ff7200;
+      --gold: #b7791f;
+      --rose: #b42342;
+      --shadow: 0 22px 70px rgba(17, 24, 39, 0.12);
+      --radius: 8px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(27, 117, 188, 0.07), rgba(255, 255, 255, 0) 360px),
+        #fbfcff;
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    a {
+      color: var(--blue-deep);
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      border-bottom: 1px solid rgba(215, 221, 232, 0.86);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar-inner {
+      width: min(1180px, calc(100% - 32px));
+      min-height: 70px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--navy);
+      text-decoration: none;
+      font-weight: 850;
+      letter-spacing: 0;
+    }
+
+    .mark {
+      width: 34px;
+      height: 34px;
+      border: 2px solid var(--navy);
+      border-radius: 50%;
+      position: relative;
+      display: inline-block;
+      flex: 0 0 auto;
+      background: #ffffff;
+    }
+
+    .mark:before,
+    .mark:after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform-origin: center;
+      background: var(--blue);
+    }
+
+    .mark:before {
+      width: 4px;
+      height: 22px;
+      transform: translate(-50%, -50%) rotate(42deg);
+      border-radius: 999px;
+    }
+
+    .mark:after {
+      width: 18px;
+      height: 4px;
+      transform: translate(-50%, -50%) rotate(42deg);
+      border-radius: 999px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 32px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .pill:before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      flex: 0 0 auto;
+    }
+
+    main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 42px;
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .context {
+      position: sticky;
+      top: 18px;
+      display: grid;
+      gap: 16px;
+      padding-top: 10px;
+    }
+
+    .kicker {
+      display: inline-flex;
+      width: fit-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: var(--blue-deep);
+      background: rgba(27, 117, 188, 0.1);
+      border: 1px solid rgba(27, 117, 188, 0.18);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .context h1 {
+      margin: 0;
+      font-size: 42px;
+      line-height: 1.02;
+      letter-spacing: 0;
+      max-width: 520px;
+    }
+
+    .context p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      max-width: 490px;
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .trust-item {
+      position: relative;
+      min-height: 50px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.82);
+      padding: 11px 12px;
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 10px;
+      align-items: start;
+      text-align: left;
+    }
+
+    .trust-item:before {
+      content: "";
+      width: 16px;
+      height: 16px;
+      margin-top: 1px;
+      border-radius: 50%;
+      background: rgba(23, 132, 100, 0.12);
+      border: 1px solid rgba(23, 132, 100, 0.28);
+    }
+
+    .trust-item:after {
+      content: "";
+      position: absolute;
+      left: 17px;
+      top: 18px;
+      width: 7px;
+      height: 4px;
+      border-left: 2px solid var(--green);
+      border-bottom: 2px solid var(--green);
+      transform: rotate(-45deg);
+    }
+
+    .trust-item strong {
+      font-size: 14px;
+      line-height: 1.2;
+      grid-column: 2;
+    }
+
+    .trust-item span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.2;
+      grid-column: 2;
+    }
+
+    .trust-icon {
+      display: none;
+    }
+
+    .proof-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .proof-line strong {
+      color: var(--ink);
+    }
+
+    .proof-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .proof-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 34px;
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.86);
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .proof-chip:before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      flex: 0 0 auto;
+    }
+
+    .mobile-intro {
+      display: none;
+      border: 1px solid rgba(27, 117, 188, 0.18);
+      border-radius: var(--radius);
+      background: #ffffff;
+      padding: 14px;
+      box-shadow: 0 12px 34px rgba(17, 24, 39, 0.07);
+    }
+
+    .mobile-intro h1 {
+      margin: 0;
+      font-size: 25px;
+      line-height: 1.08;
+    }
+
+    .mobile-intro p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .match-visual {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      box-shadow: 0 12px 34px rgba(17, 24, 39, 0.07);
+      overflow: hidden;
+    }
+
+    .match-visual-head {
+      padding: 15px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: #fbfcff;
+    }
+
+    .match-visual-head strong {
+      font-size: 14px;
+    }
+
+    .status {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .mini-match {
+      padding: 15px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .match-teaser {
+      display: none;
+      min-height: 132px;
+      place-items: center;
+      text-align: center;
+      color: var(--muted);
+      padding: 14px;
+    }
+
+    .match-teaser strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 5px;
+      font-size: 16px;
+    }
+
+    .match-visual.is-waiting .match-teaser {
+      display: grid;
+    }
+
+    .match-visual.is-waiting {
+      display: none;
+    }
+
+    .match-visual.is-waiting .route-steps,
+    .match-visual.is-waiting .mini-row {
+      display: none;
+    }
+
+    .route-steps {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .route-step {
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      background: #fbfcff;
+      font-size: 11px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .route-step.active {
+      border-color: rgba(27, 117, 188, 0.45);
+      background: rgba(27, 117, 188, 0.1);
+      color: var(--blue-deep);
+    }
+
+    .route-step.complete {
+      border-color: rgba(23, 132, 100, 0.34);
+      background: rgba(23, 132, 100, 0.1);
+      color: #0f6048;
+    }
+
+    .mini-row {
+      display: grid;
+      grid-template-columns: 94px 1fr;
+      gap: 12px;
+      align-items: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .mini-row strong {
+      min-height: 32px;
+      border-radius: 8px;
+      border: 1px solid #e4e9f2;
+      background: #fbfcff;
+      color: var(--ink);
+      padding: 7px 9px;
+      font-size: 12px;
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .form-wrap {
+      border: 1px solid rgba(215, 221, 232, 0.92);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .form-head {
+      padding: 17px 22px;
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      gap: 12px;
+      background:
+        linear-gradient(135deg, rgba(27, 117, 188, 0.08), rgba(255, 114, 0, 0.08)),
+        #ffffff;
+    }
+
+    .stage-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 9px;
+      border-radius: 999px;
+      background: #e7ebf3;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--orange), var(--green));
+      transition: width 0.22s ease;
+    }
+
+    .form-body {
+      min-height: 520px;
+      padding: 28px 26px 22px;
+      display: grid;
+      align-content: start;
+      gap: 18px;
+    }
+
+    .question-block {
+      display: grid;
+      gap: 8px;
+    }
+
+    .step-label {
+      color: var(--blue-deep);
+      font-size: 13px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 32px;
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .helper {
+      color: var(--muted);
+      margin: 0;
+      font-size: 15px;
+      max-width: 650px;
+    }
+
+    .answers {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+    }
+
+    .answers.single {
+      grid-template-columns: 1fr;
+    }
+
+    .answers.compact {
+      gap: 9px;
+    }
+
+    .answers.compact .answer {
+      min-height: 64px;
+      padding: 10px;
+      grid-template-columns: 42px 1fr 22px;
+    }
+
+    .answers.compact .answer-icon {
+      width: 42px;
+      height: 42px;
+      font-size: 11px;
+    }
+
+    .combo-step {
+      display: grid;
+      gap: 14px;
+    }
+
+    .combo-group {
+      display: grid;
+      gap: 9px;
+    }
+
+    .combo-title {
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .why-ask {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+      margin-top: -3px;
+    }
+
+    .answer {
+      width: 100%;
+      min-height: 86px;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: 50px 1fr 22px;
+      gap: 12px;
+      align-items: center;
+      transition: border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+    }
+
+    .answer:hover,
+    .answer:focus-visible {
+      outline: none;
+      border-color: rgba(255, 114, 0, 0.8);
+      box-shadow: 0 0 0 3px rgba(255, 114, 0, 0.13);
+    }
+
+    .answer.selected {
+      border-color: var(--blue);
+      background: rgba(27, 117, 188, 0.07);
+      box-shadow: 0 0 0 3px rgba(27, 117, 188, 0.11);
+    }
+
+    .answer-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(27, 117, 188, 0.18);
+      background: rgba(27, 117, 188, 0.08);
+      color: var(--blue-deep);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0;
+      line-height: 1;
+    }
+
+    .answer.selected .answer-icon {
+      border-color: rgba(255, 114, 0, 0.36);
+      background: rgba(255, 114, 0, 0.12);
+      color: #a94700;
+    }
+
+    .answer-copy {
+      min-width: 0;
+    }
+
+    .answer strong {
+      display: block;
+      line-height: 1.15;
+      font-size: 15px;
+    }
+
+    .answer .option-detail {
+      display: none;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .check {
+      width: 22px;
+      height: 22px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      position: relative;
+      background: #ffffff;
+      flex: 0 0 auto;
+    }
+
+    .selected .check {
+      border-color: var(--blue);
+      background: var(--blue);
+    }
+
+    .selected .check:after {
+      content: "";
+      position: absolute;
+      width: 9px;
+      height: 5px;
+      left: 5px;
+      top: 6px;
+      border-left: 2px solid #ffffff;
+      border-bottom: 2px solid #ffffff;
+      transform: rotate(-45deg);
+    }
+
+    .field-grid {
+      display: grid;
+      gap: 13px;
+    }
+
+    .field-grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    label {
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"] {
+      width: 100%;
+      min-height: 50px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px 13px;
+      color: var(--ink);
+      background: #ffffff;
+      outline: none;
+      transition: border-color 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(27, 117, 188, 0.14);
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .error {
+      color: var(--rose);
+      font-size: 13px;
+      min-height: 18px;
+      font-weight: 750;
+    }
+
+    .notice {
+      border: 1px solid rgba(23, 132, 100, 0.25);
+      background: rgba(23, 132, 100, 0.08);
+      color: #0f6048;
+      border-radius: var(--radius);
+      padding: 9px 11px;
+      font-size: 13px;
+      font-weight: 850;
+      width: fit-content;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 2px;
+    }
+
+    .form-actions.choice-only {
+      justify-content: flex-start;
+      min-height: 48px;
+    }
+
+    .form-actions.unlock-actions {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: start;
+    }
+
+    .unlock-actions .btn-primary {
+      justify-self: end;
+    }
+
+    .consent-inline {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 8px;
+      align-items: start;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+      max-width: 680px;
+      justify-self: end;
+    }
+
+    .consent-inline input {
+      width: 15px;
+      height: 15px;
+      margin: 1px 0 0;
+    }
+
+    .consent-inline .error {
+      grid-column: 2;
+      min-height: 0;
+    }
+
+    .tap-note {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .btn {
+      min-height: 48px;
+      border-radius: var(--radius);
+      border: 1px solid transparent;
+      padding: 11px 17px;
+      font-weight: 850;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid rgba(27, 117, 188, 0.25);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: #ffffff;
+      box-shadow: 0 12px 22px rgba(255, 114, 0, 0.22);
+      min-width: 178px;
+    }
+
+    .btn-primary:hover {
+      background: #e96800;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #ffffff;
+      border-color: var(--line);
+      color: var(--muted);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--blue);
+      color: var(--ink);
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .summary-item {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 11px;
+      background: #fbfcff;
+    }
+
+    .summary-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .summary-item strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 14px;
+      line-height: 1.25;
+    }
+
+    .unlock-layout {
+      display: grid;
+      gap: 14px;
+    }
+
+    .unlock-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .unlock-head {
+      padding: 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcff;
+    }
+
+    .unlock-head strong {
+      font-size: 15px;
+    }
+
+    .unlock-body {
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .locked-match {
+      border: 1px solid #dfe5ef;
+      border-radius: var(--radius);
+      background: #fbfcff;
+      padding: 14px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .locked-match-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .locked-match-top strong {
+      font-size: 15px;
+    }
+
+    .match-details {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .match-cell {
+      min-height: 70px;
+      padding: 11px;
+      border: 1px solid #edf0f6;
+      border-radius: var(--radius);
+      background: #ffffff;
+      display: grid;
+      align-content: start;
+      gap: 7px;
+    }
+
+    .match-cell span {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .locked-match-copy {
+      filter: blur(4px);
+      user-select: none;
+    }
+
+    .locked-match-copy strong {
+      display: block;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .locked-match-copy .bar {
+      height: 10px;
+      margin-top: 5px;
+    }
+
+    .unlock-note {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .locked-row {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 12px;
+      align-items: center;
+      min-height: 38px;
+      border-bottom: 1px solid #edf0f6;
+      padding-bottom: 9px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .locked-row:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .blur-bars {
+      display: grid;
+      gap: 6px;
+      filter: blur(4px);
+      user-select: none;
+    }
+
+    .bar {
+      height: 11px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(20, 90, 145, 0.32), rgba(255, 114, 0, 0.2));
+    }
+
+    .bar.short {
+      width: 48%;
+    }
+
+    .bar.medium {
+      width: 72%;
+    }
+
+    .consent {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 10px;
+      align-items: start;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px;
+      background: #fbfcff;
+    }
+
+    .consent input {
+      width: 18px;
+      height: 18px;
+      margin: 1px 0 0;
+    }
+
+    .success {
+      min-height: 500px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      gap: 18px;
+      padding: 28px;
+    }
+
+    .success-mark {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(23, 132, 100, 0.12);
+      border: 1px solid rgba(23, 132, 100, 0.28);
+      position: relative;
+      margin: 0 auto;
+    }
+
+    .success-mark:after {
+      content: "";
+      position: absolute;
+      width: 28px;
+      height: 14px;
+      left: 17px;
+      top: 21px;
+      border-left: 4px solid var(--green);
+      border-bottom: 4px solid var(--green);
+      transform: rotate(-45deg);
+    }
+
+    .debug {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto 34px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--muted);
+      font-size: 13px;
+      display: none;
+    }
+
+    .debug summary {
+      cursor: pointer;
+      padding: 12px 14px;
+      font-weight: 850;
+      color: var(--ink);
+    }
+
+    .debug pre {
+      max-height: 240px;
+      overflow: auto;
+      margin: 0;
+      padding: 0 14px 14px;
+      white-space: pre-wrap;
+    }
+
+    @media (max-width: 980px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      .context {
+        position: static;
+        padding-top: 0;
+        order: 2;
+      }
+
+      .form-wrap {
+        order: 1;
+      }
+
+      .mobile-intro {
+        display: grid;
+        order: 0;
+        position: sticky;
+        top: 8px;
+        z-index: 4;
+      }
+
+      .context h1 {
+        font-size: 38px;
+      }
+
+      .match-visual {
+        display: none;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .topbar-inner {
+        min-height: auto;
+        padding: 10px 0;
+        align-items: center;
+        flex-direction: row;
+      }
+
+      .top-actions {
+        width: auto;
+        flex-wrap: nowrap;
+        gap: 6px;
+        justify-content: flex-end;
+      }
+
+      .top-actions .pill:nth-child(n+2) {
+        display: none;
+      }
+
+      .pill {
+        min-height: 28px;
+        padding: 5px 8px;
+        white-space: nowrap;
+        font-size: 12px;
+      }
+
+      main,
+      .debug,
+      .topbar-inner {
+        width: min(100% - 24px, 1180px);
+      }
+
+      main {
+        padding-top: 18px;
+      }
+
+      .context {
+        display: none;
+      }
+
+      .mobile-intro {
+        padding: 10px 12px;
+        gap: 8px;
+      }
+
+      .mobile-intro h1 {
+        font-size: 20px;
+        line-height: 1.08;
+      }
+
+      .mobile-intro p {
+        display: none;
+      }
+
+      .mobile-intro .proof-strip {
+        gap: 6px;
+      }
+
+      .mobile-intro .proof-chip {
+        min-height: 28px;
+        padding: 5px 8px;
+        font-size: 12px;
+      }
+
+      .context h1 {
+        font-size: 32px;
+      }
+
+      .context p {
+        font-size: 16px;
+      }
+
+      .trust-grid,
+      .answers,
+      .field-grid.two,
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-head,
+      .form-body {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .form-body {
+        min-height: 500px;
+      }
+
+      h2 {
+        font-size: 25px;
+      }
+
+      .answer {
+        grid-template-columns: 44px 1fr 22px;
+        min-height: 74px;
+      }
+
+      .answer-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 11px;
+      }
+
+      .form-actions {
+        flex-direction: column-reverse;
+      }
+
+      .form-actions.unlock-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .unlock-actions .btn-primary,
+      .consent-inline {
+        justify-self: stretch;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .locked-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ── IMPROVED UNLOCK CARD STYLES ─────────────────────────── */
+    .unlock-ready-badge {
+      background: rgba(23, 132, 100, 0.12);
+      border: 1px solid rgba(23, 132, 100, 0.28);
+      color: #0f6048;
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: 0.03em;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .match-details-6 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .match-cell-visible {
+      border-color: rgba(27, 117, 188, 0.28) !important;
+      background: rgba(27, 117, 188, 0.05) !important;
+    }
+
+    .match-cell-blurred {
+      opacity: 0.7;
+    }
+
+    .visible-match-copy strong {
+      display: block;
+      font-size: 13px;
+      line-height: 1.3;
+      color: var(--ink);
+      font-weight: 750;
+    }
+
+    .match-cell-visible .match-cell span {
+      color: var(--blue-deep) !important;
+    }
+
+    .match-why-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 10px;
+      background: rgba(23, 132, 100, 0.06);
+      border: 1px solid rgba(23, 132, 100, 0.18);
+      border-radius: var(--radius);
+      font-size: 12px;
+    }
+
+    .match-why-label {
+      font-weight: 850;
+      color: #0f6048;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+
+    .match-why-text {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 680px) {
+      .match-details-6 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    /* ───────────────────────────────────────────────────────── */
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="logo" href="#" aria-label="REinvestorguide">
+          <span class="mark" aria-hidden="true"></span>
+          <span>REinvestor<span style="color: var(--blue)">guide</span></span>
+        </a>
+        <div class="top-actions" aria-label="Trust points">
+          <span class="pill">No SSN</span>
+          <span class="pill">No hard credit pull</span>
+          <span class="pill">One lender match</span>
+          <span class="pill">2-minute match</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <aside class="context" aria-label="Investor financing context">
+        <span class="kicker">Investor financing match</span>
+        <h1>Find the right lender for your deal - no SSN, no hard pull, 2 minutes.</h1>
+        <p>Answer a few deal questions and preview matched lending options before you submit contact details.</p>
+        <div class="proof-strip" aria-label="Trust points">
+          <span class="proof-chip">No SSN</span>
+          <span class="proof-chip">No hard credit pull</span>
+          <span class="proof-chip">One lender match</span>
+        </div>
+
+        <div class="trust-grid">
+          <div class="trust-item">
+            <strong>Contact comes after your preview</strong>
+            <span>See that your lender match is ready before sharing your phone number.</span>
+          </div>
+          <div class="trust-item">
+            <strong>Built for investor property types</strong>
+            <span>Single family, condo, multifamily, mixed-use, and retail.</span>
+          </div>
+          <div class="trust-item">
+            <strong>Estimates are enough to start</strong>
+            <span>You can refine exact loan details with the lender.</span>
+          </div>
+        </div>
+
+        <div class="match-visual is-waiting" id="matchVisual" aria-hidden="true">
+          <div class="match-visual-head">
+            <strong>Live match build</strong>
+            <span class="status" id="visualPercent">0%</span>
+          </div>
+          <div class="mini-match">
+            <div class="match-teaser">
+              <span>
+                <strong>Answer 2 quick questions</strong>
+                Your match preview will build here.
+              </span>
+            </div>
+            <div class="route-steps">
+              <span class="route-step active" data-route-stage="Goal">Goal</span>
+              <span class="route-step" data-route-stage="Property">Property</span>
+              <span class="route-step" data-route-stage="Scenario">Loan</span>
+              <span class="route-step" data-route-stage="Borrower">Credit</span>
+              <span class="route-step" data-route-stage="Location">ZIP</span>
+            </div>
+            <div class="mini-row">
+              <span>Deal</span>
+              <strong id="sideGoal">Choose first</strong>
+            </div>
+            <div class="mini-row">
+              <span>Property</span>
+              <strong id="sideProperty">Pending</strong>
+            </div>
+            <div class="mini-row">
+              <span>Loan</span>
+              <strong id="sideLoan">Pending</strong>
+            </div>
+            <div class="mini-row">
+              <span>Path</span>
+              <strong id="sidePath">Building match</strong>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <section class="mobile-intro" aria-label="Investor financing promise">
+        <h1>Find the right lender for your deal.</h1>
+        <p>Preview matched options before sharing contact details.</p>
+        <div class="proof-strip" aria-label="Trust points">
+          <span class="proof-chip">No SSN</span>
+          <span class="proof-chip">No hard credit pull</span>
+          <span class="proof-chip">One lender match</span>
+        </div>
+      </section>
+
+      <section class="form-wrap" aria-label="Get matched form">
+        <div class="form-head">
+          <div class="stage-line">
+            <span id="stageName">Goal</span>
+            <span id="stepCount">1 / 8</span>
+          </div>
+          <div class="progress-track" aria-hidden="true">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </div>
+        <div class="form-body" id="formBody" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <details class="debug">
+      <summary>Prototype instrumentation stream</summary>
+      <pre id="eventLog">[]</pre>
+    </details>
+  </div>
+
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    const FORM_VERSION = "visual_investor_match_fastpath_v3";
+    const events = [];
+    const state = {};
+    let currentStep = 0;
+    let formStarted = false;
+    let submitted = false;
+
+    const steps = [
+      {
+        id: "deal_status",
+        stage: "Goal",
+        label: "Deal status",
+        question: "Do you already have a property in mind?",
+        helper: "This sets the route before we ask about numbers.",
+        type: "choice",
+        columns: 1,
+        trust: "No contact info until your match preview.",
+        options: [
+          ["found_property", "Yes, I found a property", "Offer pending, under contract, or actively evaluating a deal."],
+          ["own_property", "Yes, I already own it", "Refinance, cash-out, renovation, or bridge scenario."],
+          ["still_shopping", "Not yet, I am still shopping", "Looking for financing options before choosing a property."]
+        ]
+      },
+      {
+        id: "financing_goal",
+        stage: "Goal",
+        label: "Funding goal",
+        question: "What do you need funded?",
+        helper: "Pick the closest deal.",
+        type: "choice",
+        columns: 2,
+        trust: "Not sure is OK.",
+        options: [
+          ["buy_rental", "Buy and hold rental", "Purchase a property you plan to rent, hold, or operate."],
+          ["refinance", "Refinance a property", "Replace or improve financing on a property you already own."],
+          ["cash_out", "Cash out equity", "Use equity from a property to fund your next move."],
+          ["fix_flip", "Fix and flip", "Finance acquisition, rehab, or resale timing."],
+          ["build_renovate", "Build or renovate", "Ground-up construction or major renovation financing."],
+          ["bridge", "Bridge a timing gap", "Cover a timing gap, acquisition, or transition."]
+        ]
+      },
+      {
+        id: "property_type",
+        stage: "Property",
+        label: "Property",
+        question: "What kind of property are you financing?",
+        helper: "Choose the closest property type.",
+        type: "choice",
+        columns: 2,
+        options: [
+          ["single_family", "Single Family", "Detached home, townhouse, or similar investment property."],
+          ["condo", "Condominium", "Condo unit or similar property."],
+          ["two_four", "Multi-Family: 2-4 Units", "Duplex, triplex, or fourplex."],
+          ["five_plus", "Multi-Family: 5+ Units", "Apartment or multifamily property with five or more units."],
+          ["mixed_use", "Mixed-use", "Property with both residential and commercial use."],
+          ["retail_building", "Retail Building", "Retail or commercial storefront property."]
+        ]
+      },
+      {
+        id: "timeline",
+        stage: "Scenario",
+        label: "Timeline",
+        question: "How soon do you need options?",
+        helper: "Urgency helps prioritize the right lender path.",
+        type: "choice",
+        columns: 2,
+        options: [
+          ["asap", "ASAP", "Found a property, offer pending, or time-sensitive deal."],
+          ["30_days", "Within 30 days", "You need options soon."],
+          ["2_3_months", "2-3 months", "You are planning ahead but have a real scenario."],
+          ["researching", "Still researching", "Still comparing options."]
+        ]
+      },
+      {
+        id: "deal_size",
+        stage: "Scenario",
+        label: "Deal size",
+        question: "What size is the deal?",
+        helper: "Ranges are enough. Exact numbers can come later.",
+        type: "deal_size",
+        trust: "Estimate OK.",
+        propertyOptions: [
+          ["under_100k", "Less than $100K", "Early-stage, low-cost, land, or smaller market scenario."],
+          ["100_250k", "$100K - $250K", "Common smaller rental or rehab range."],
+          ["250_500k", "$250K - $500K", "Common rental, refinance, or small multifamily range."],
+          ["500_750k", "$500K - $750K", "Larger rental, multifamily, or higher-cost market."],
+          ["750_1m", "$750K - $1M", "Higher-value investment or multifamily scenario."],
+          ["1m_plus", "$1M or more", "Large multifamily, commercial, or portfolio-level deal."]
+        ]
+      },
+      {
+        id: "realtor",
+        stage: "Scenario",
+        label: "Realtor",
+        question: "Are you already working with a realtor?",
+        helper: "Investor-friendly realtor matching is optional.",
+        type: "realtor_section",
+        statusOptions: [
+          ["yes", "Yes, I already have a realtor", "We will keep the match focused on lenders."],
+          ["no", "No, I need a realtor", "We can ask whether you want an investor-friendly realtor match."]
+        ],
+        matchOptions: [
+          ["yes", "Yes, match me with an investor-friendly realtor", "Helpful if you want deal sourcing or local investor guidance."],
+          ["no", "No, skip realtor match", "Keep this request focused on lending options."]
+        ]
+      },
+      {
+        id: "loan_position",
+        stage: "Scenario",
+        label: "Loan position",
+        question: "What position will this loan be?",
+        helper: "If you are not sure, choose that.",
+        type: "choice",
+        columns: 2,
+        options: [
+          ["first", "1st (only mortgage)", "This would be the main or only mortgage."],
+          ["second", "2nd (home-equity)", "This would sit behind an existing mortgage."],
+          ["third", "3rd", "There are already multiple financing layers."],
+          ["not_sure", "I'm not sure", "We can clarify this after matching your scenario."]
+        ]
+      },
+      {
+        id: "credit_score",
+        stage: "Borrower",
+        label: "Credit score",
+        question: "What's your current credit score?",
+        helper: "We use this to match lenders who work with your profile - not to judge you.",
+        type: "credit_section",
+        trust: "An estimate is fine. No SSN or hard pull.",
+        creditOptions: [
+          ["excellent", "Excellent (720+)", "Strongest investor-lending profile."],
+          ["good", "Good (680-719)", "Good fit for many investor lending options."],
+          ["average", "Average (620-679)", "Some programs may still fit."],
+          ["poor", "Poor (below 620)", "We will route carefully based on lender fit."]
+        ],
+        eventOptions: [
+          ["yes", "Yes", "Bankruptcy, foreclosure, or short sale in the last 3 years."],
+          ["no", "No", "No bankruptcy, foreclosure, or short sale in the last 3 years."]
+        ]
+      },
+      {
+        id: "location",
+        stage: "Location",
+        label: "Property location",
+        question: "Where is the property?",
+        helper: "ZIP code is enough.",
+        type: "location",
+        trust: "Used for lender availability.",
+        fields: [
+          { id: "property_zip", label: "Property ZIP code", placeholder: "48226", inputMode: "numeric" },
+          { id: "property_address", label: "Property address or city (optional)", placeholder: "Detroit, MI" }
+        ]
+      },
+      {
+        id: "unlock_contact",
+        stage: "Match",
+        label: "Your match",
+        question: "Your lender match is ready.",
+        helper: "Submit your contact information to proceed with your matched lender.",
+        type: "unlock",
+        trust: "No SSN. No hard pull."
+      }
+    ];
+
+    const fieldLabels = {
+      deal_status: "Deal status",
+      financing_goal: "Financing goal",
+      property_type: "Property type",
+      property_value: "Property value",
+      loan_amount: "Loan amount",
+      realtor_status: "Realtor status",
+      realtor_match: "Realtor match",
+      loan_position: "Loan position",
+      timeline: "Timeline",
+      credit_score: "Credit score",
+      credit_event: "Bankruptcy or foreclosure",
+      property_zip: "Property ZIP",
+      property_address: "Property address"
+    };
+
+    const displayValue = {};
+    steps.forEach(function(step) {
+      if (step.options) {
+        step.options.forEach(function(option) {
+          displayValue[step.id + ":" + option[0]] = option[1];
+        });
+      }
+      if (step.propertyOptions) {
+        step.propertyOptions.forEach(function(option) {
+          displayValue["property_value:" + option[0]] = option[1];
+        });
+      }
+      if (step.creditOptions) {
+        step.creditOptions.forEach(function(option) {
+          displayValue["credit_score:" + option[0]] = option[1];
+        });
+      }
+      if (step.eventOptions) {
+        step.eventOptions.forEach(function(option) {
+          displayValue["credit_event:" + option[0]] = option[1];
+        });
+      }
+      if (step.statusOptions) {
+        step.statusOptions.forEach(function(option) {
+          displayValue["realtor_status:" + option[0]] = option[1];
+        });
+      }
+      if (step.matchOptions) {
+        step.matchOptions.forEach(function(option) {
+          displayValue["realtor_match:" + option[0]] = option[1];
+        });
+      }
+    });
+
+    function shouldAskRealtor() {
+      return !!state.financing_goal && !["refinance", "cash_out", "bridge"].includes(state.financing_goal);
+    }
+
+    function shouldShow(step) {
+      if (step && step.id === "realtor") return shouldAskRealtor();
+      return !!step;
+    }
+
+    function visibleStepIndexes() {
+      return steps.reduce(function(indexes, step, index) {
+        if (shouldShow(step)) indexes.push(index);
+        return indexes;
+      }, []);
+    }
+
+    function visibleStepNumber(index) {
+      const indexes = visibleStepIndexes();
+      const position = indexes.indexOf(index);
+      return position === -1 ? indexes.length : position + 1;
+    }
+
+    function questionStepIndexes() {
+      return visibleStepIndexes().filter(function(index) {
+        return steps[index].type !== "unlock";
+      });
+    }
+
+    function questionStepNumber(index) {
+      const indexes = questionStepIndexes();
+      const position = indexes.indexOf(index);
+      return position === -1 ? indexes.length : position + 1;
+    }
+
+    function nextVisibleIndex(fromIndex) {
+      for (let index = fromIndex + 1; index < steps.length; index += 1) {
+        if (shouldShow(steps[index])) return index;
+      }
+      return fromIndex;
+    }
+
+    function previousVisibleIndex(fromIndex) {
+      for (let index = fromIndex - 1; index >= 0; index -= 1) {
+        if (shouldShow(steps[index])) return index;
+      }
+      return fromIndex;
+    }
+
+    function track(eventName, params) {
+      const payload = Object.assign({
+        event: eventName,
+        form_name: "get_matched",
+        form_version: FORM_VERSION,
+        experiment_variant: FORM_VERSION,
+        source_page_url: window.location.href,
+        step_number: visibleStepNumber(currentStep),
+        step_name: steps[currentStep] ? steps[currentStep].id : "complete",
+        timestamp: new Date().toISOString()
+      }, params || {});
+
+      window.dataLayer.push(payload);
+      events.push(payload);
+      document.getElementById("eventLog").textContent = JSON.stringify(events, null, 2);
+    }
+
+    function startFormIfNeeded() {
+      if (!formStarted) {
+        formStarted = true;
+        track("form_start", { field_group: steps[currentStep].stage });
+      }
+    }
+
+    function stepView() {
+      const step = steps[currentStep];
+      if (!step || submitted) return;
+      track("form_step_view", {
+        field_group: step.stage,
+        step_number: visibleStepNumber(currentStep),
+        step_name: step.id
+      });
+      if (step.id === "unlock_contact") {
+        track("lender_match_unlock_view", {
+          lead_type_inferred: inferLoanPath()
+        });
+      }
+    }
+
+    function setChoice(step, value, label) {
+      startFormIfNeeded();
+      state[step.id] = value;
+      state[step.id + "_label"] = label;
+      if (step.id === "financing_goal" && !shouldAskRealtor()) {
+        delete state.realtor_status;
+        delete state.realtor_status_label;
+        delete state.realtor_match;
+        delete state.realtor_match_label;
+      }
+      track("form_step_complete", {
+        field_group: step.stage,
+        step_name: step.id,
+        selected_option: label,
+        lead_type_inferred: inferLoanPath()
+      });
+      setTimeout(nextStep, 160);
+    }
+
+    function formatMoney(value) {
+      const digits = String(value || "").replace(/[^0-9]/g, "");
+      if (!digits) return "";
+      return "$" + Number(digits).toLocaleString();
+    }
+
+    function getAnswerLabel(key) {
+      return state[key + "_label"] || state[key] || "Not provided";
+    }
+
+    function inferLoanPath() {
+      const goal = state.financing_goal;
+      const loanPosition = state.loan_position;
+      const property = state.property_type;
+
+      if (goal === "fix_flip") return "Fix-and-flip or bridge financing";
+      if (goal === "bridge") return "Bridge or short-term investor financing";
+      if (goal === "build_renovate" || property === "land_build") return "Construction or renovation financing";
+      if (property === "mixed_use" || property === "retail_building") return "Commercial or mixed-use investor financing";
+      if (goal === "cash_out") return "Cash-out refinance or equity access";
+      if (goal === "refinance") return "Investment property refinance";
+      if (loanPosition === "second") return "2nd lien or equity-access review";
+      if (goal === "buy_rental") return "Rental or DSCR-style investor financing";
+      if (goal === "not_sure") return "Investor-friendly lender review";
+      return "Investor financing match";
+    }
+
+    function stageProgress() {
+      const step = steps[currentStep];
+      if (submitted || (step && step.type === "unlock")) return 100;
+      const indexes = questionStepIndexes();
+      const position = questionStepNumber(currentStep) - 1;
+      const progress = 14 + Math.round((position / Math.max(1, indexes.length - 1)) * 78);
+      return Math.min(92, progress);
+    }
+
+    function setText(id, value) {
+      const node = document.getElementById(id);
+      if (node) node.textContent = value;
+    }
+
+    function hasAnyAnswer(keys) {
+      return keys.some(function(key) {
+        return !!state[key];
+      });
+    }
+
+    function updateVisuals() {
+      const currentStage = steps[currentStep] ? steps[currentStep].stage : "Complete";
+      const answeredCount = ["deal_status", "financing_goal", "property_type", "timeline", "property_value", "loan_amount", "realtor_status", "realtor_match", "loan_position", "credit_score", "credit_event", "property_zip"].filter(function(key) {
+        return !!state[key];
+      }).length;
+      const completePercent = submitted ? 100 : stageProgress();
+
+      setText("visualPercent", completePercent + "%");
+      setText("sideGoal", state.financing_goal_label || state.deal_status_label || "Choose first");
+      setText("sideProperty", state.property_type_label || "Pending");
+      setText("sideLoan", state.loan_amount || state.property_value_label || "Pending");
+      setText("sidePath", state.financing_goal ? inferLoanPath() : "Building match");
+
+      const visual = document.getElementById("matchVisual");
+      if (visual) {
+        visual.classList.toggle("is-waiting", answeredCount < 2);
+      }
+
+      const stageFields = {
+        Goal: ["deal_status", "financing_goal"],
+        Property: ["property_type"],
+        Scenario: ["timeline", "property_value", "loan_amount", "realtor_status", "realtor_match", "loan_position"],
+        Borrower: ["credit_score", "credit_event"],
+        Location: ["property_zip"]
+      };
+
+      document.querySelectorAll(".route-step").forEach(function(node) {
+        const stage = node.getAttribute("data-route-stage");
+        node.classList.toggle("active", stage === currentStage);
+        node.classList.toggle("complete", hasAnyAnswer(stageFields[stage] || []));
+      });
+    }
+
+    function render() {
+      if (submitted) {
+        renderSuccess();
+        return;
+      }
+
+      if (!shouldShow(steps[currentStep])) {
+        currentStep = nextVisibleIndex(currentStep);
+      }
+
+      const step = steps[currentStep];
+      document.getElementById("stageName").textContent = step.stage;
+      document.getElementById("stepCount").textContent = step.type === "unlock" ? "Preview ready" : questionStepNumber(currentStep) + " / " + questionStepIndexes().length;
+      document.getElementById("progressFill").style.width = stageProgress() + "%";
+
+      const body = document.getElementById("formBody");
+      body.innerHTML = "";
+
+      const block = document.createElement("div");
+      block.className = "question-block";
+      const helperMarkup = step.type === "choice" ? "" : '<p class="helper">' + step.helper + '</p>';
+      block.innerHTML =
+        '<span class="step-label">' + step.label + '</span>' +
+        '<h2>' + step.question + '</h2>' +
+        helperMarkup;
+      body.appendChild(block);
+
+      if (step.trust) {
+        const notice = document.createElement("div");
+        notice.className = "notice";
+        notice.textContent = step.trust;
+        body.appendChild(notice);
+      }
+
+      if (step.type === "choice") renderChoices(body, step);
+      if (step.type === "input") renderInput(body, step);
+      if (step.type === "deal_size") renderDealSize(body, step);
+      if (step.type === "realtor_section") renderRealtorSection(body, step);
+      if (step.type === "credit_section") renderCreditSection(body, step);
+      if (step.type === "location") renderLocation(body, step);
+      if (step.type === "unlock") renderUnlock(body, step);
+
+      renderActions(body, step);
+      updateVisuals();
+    }
+
+    function choiceIcon(stepId, value, label) {
+      const icons = {
+        deal_status: {
+          found_property: "YES",
+          own_property: "OWN",
+          still_shopping: "SHOP"
+        },
+        financing_goal: {
+          buy_rental: "BUY",
+          refinance: "REFI",
+          cash_out: "CASH",
+          fix_flip: "FLIP",
+          build_renovate: "BUILD",
+          bridge: "GAP"
+        },
+        property_type: {
+          single_family: "SFR",
+          condo: "CONDO",
+          two_four: "2-4",
+          five_plus: "5+",
+          mixed_use: "MIX",
+          retail_building: "RTL"
+        },
+        property_value: {
+          under_100k: "&lt;100",
+          "100_250k": "100",
+          "250_500k": "250",
+          "500_750k": "500",
+          "750_1m": "750",
+          "1m_plus": "1M+"
+        },
+        timeline: {
+          asap: "ASAP",
+          "30_days": "30",
+          "2_3_months": "2-3",
+          researching: "PLAN"
+        },
+        loan_position: {
+          first: "1ST",
+          second: "2ND",
+          third: "3RD",
+          not_sure: "?"
+        },
+        realtor_status: {
+          yes: "YES",
+          no: "NO"
+        },
+        realtor_match: {
+          yes: "YES",
+          no: "NO"
+        },
+        credit_score: {
+          excellent: "720",
+          good: "680",
+          average: "620",
+          poor: "&lt;620"
+        },
+        credit_event: {
+          yes: "YES",
+          no: "NO"
+        }
+      };
+
+      return icons[stepId] && icons[stepId][value] ? icons[stepId][value] : label.slice(0, 3).toUpperCase();
+    }
+
+    function renderChoices(body, step) {
+      const answers = document.createElement("div");
+      answers.className = "answers" + (step.columns === 1 ? " single" : "");
+
+      step.options.forEach(function(option) {
+        const value = option[0];
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "answer" + (state[step.id] === value ? " selected" : "");
+        button.setAttribute("aria-label", option[1] + ". " + option[2]);
+        button.innerHTML =
+          '<span class="answer-icon" aria-hidden="true">' + choiceIcon(step.id, value, option[1]) + '</span>' +
+          '<span class="answer-copy"><strong>' + option[1] + '</strong><span class="option-detail">' + option[2] + '</span></span>' +
+          '<span class="check" aria-hidden="true"></span>';
+        button.addEventListener("click", function() {
+          setChoice(step, value, option[1]);
+        });
+        answers.appendChild(button);
+      });
+
+      body.appendChild(answers);
+    }
+
+    function renderSelectableGroup(parent, key, options, iconKey, singleColumn) {
+      const answers = document.createElement("div");
+      answers.className = "answers compact" + (singleColumn ? " single" : "");
+
+      options.forEach(function(option) {
+        const value = option[0];
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "answer" + (state[key] === value ? " selected" : "");
+        button.dataset.value = value;
+        button.setAttribute("aria-label", option[1] + ". " + option[2]);
+        button.innerHTML =
+          '<span class="answer-icon" aria-hidden="true">' + choiceIcon(iconKey, value, option[1]) + '</span>' +
+          '<span class="answer-copy"><strong>' + option[1] + '</strong><span class="option-detail">' + option[2] + '</span></span>' +
+          '<span class="check" aria-hidden="true"></span>';
+        button.addEventListener("click", function() {
+          state[key] = value;
+          state[key + "_label"] = option[1];
+          if (key === "realtor_status" && value !== "no") {
+            delete state.realtor_match;
+            delete state.realtor_match_label;
+          }
+          answers.querySelectorAll(".answer").forEach(function(node) {
+            node.classList.toggle("selected", node.dataset.value === value);
+          });
+          if (key === "realtor_status") {
+            render();
+            return;
+          }
+          updateVisuals();
+        });
+        answers.appendChild(button);
+      });
+
+      parent.appendChild(answers);
+    }
+
+    function renderDealSize(body, step) {
+      const layout = document.createElement("div");
+      layout.className = "combo-step";
+
+      const propertyGroup = document.createElement("div");
+      propertyGroup.className = "combo-group";
+      propertyGroup.innerHTML = '<span class="combo-title">Estimated property value</span>';
+      renderSelectableGroup(propertyGroup, "property_value", step.propertyOptions, "property_value", false);
+      propertyGroup.insertAdjacentHTML("beforeend", '<span class="error" id="property_valueError"></span>');
+      layout.appendChild(propertyGroup);
+
+      const loanGroup = document.createElement("div");
+      loanGroup.className = "field";
+      loanGroup.innerHTML =
+        '<label for="loan_amount">Estimated loan amount</label>' +
+        '<input id="loan_amount" type="text" inputmode="numeric" placeholder="$350,000" value="' + (state.loan_amount || "") + '">' +
+        '<span class="hint">A rough amount works.</span>' +
+        '<span class="error" id="loan_amountError"></span>';
+      layout.appendChild(loanGroup);
+      body.appendChild(layout);
+
+      const input = document.getElementById("loan_amount");
+      input.addEventListener("input", function() {
+        state.loan_amount = input.value;
+        updateVisuals();
+      });
+      input.addEventListener("blur", function() {
+        input.value = formatMoney(input.value);
+        state.loan_amount = input.value;
+        updateVisuals();
+      });
+    }
+
+    function renderRealtorSection(body, step) {
+      const layout = document.createElement("div");
+      layout.className = "combo-step";
+
+      const statusGroup = document.createElement("div");
+      statusGroup.className = "combo-group";
+      statusGroup.innerHTML = '<span class="combo-title">Realtor status</span>';
+      renderSelectableGroup(statusGroup, "realtor_status", step.statusOptions, "realtor_status", true);
+      layout.appendChild(statusGroup);
+
+      if (state.realtor_status === "no") {
+        const matchGroup = document.createElement("div");
+        matchGroup.className = "combo-group";
+        matchGroup.innerHTML = '<span class="combo-title">Would you like us to match you with an investor-friendly realtor?</span>';
+        renderSelectableGroup(matchGroup, "realtor_match", step.matchOptions, "realtor_match", true);
+        layout.appendChild(matchGroup);
+      }
+
+      const error = document.createElement("span");
+      error.className = "error";
+      error.id = "realtorError";
+      layout.appendChild(error);
+      body.appendChild(layout);
+    }
+
+    function renderCreditSection(body, step) {
+      const layout = document.createElement("div");
+      layout.className = "combo-step";
+
+      const scoreGroup = document.createElement("div");
+      scoreGroup.className = "combo-group";
+      scoreGroup.innerHTML =
+        '<span class="combo-title">Credit score estimate</span>' +
+        '<span class="why-ask">We use this to avoid showing lenders that do not work with your credit range. No SSN or hard pull.</span>';
+      renderSelectableGroup(scoreGroup, "credit_score", step.creditOptions, "credit_score", false);
+      layout.appendChild(scoreGroup);
+
+      const eventGroup = document.createElement("div");
+      eventGroup.className = "combo-group";
+      eventGroup.innerHTML =
+        '<span class="combo-title">Any bankruptcy, foreclosure, or short sale in the last 3 years?</span>' +
+        '<span class="why-ask">Some lenders can work with recent events and some cannot. This keeps the match relevant.</span>';
+      renderSelectableGroup(eventGroup, "credit_event", step.eventOptions, "credit_event", true);
+      layout.appendChild(eventGroup);
+
+      const error = document.createElement("span");
+      error.className = "error";
+      error.id = "credit_sectionError";
+      layout.appendChild(error);
+      body.appendChild(layout);
+    }
+
+    function renderInput(body, step) {
+      const grid = document.createElement("div");
+      grid.className = "field-grid";
+      grid.innerHTML =
+        '<div class="field">' +
+          '<label for="' + step.id + '">' + step.labelText + '</label>' +
+          '<input id="' + step.id + '" type="' + step.inputType + '" inputmode="' + step.inputMode + '" placeholder="' + step.placeholder + '" value="' + (state[step.id] || "") + '">' +
+          '<span class="hint">' + step.helper + '</span>' +
+          '<span class="error" id="' + step.id + 'Error"></span>' +
+        '</div>';
+      body.appendChild(grid);
+
+      const input = grid.querySelector("input");
+      input.addEventListener("input", function() {
+        state[step.id] = input.value;
+      });
+      input.addEventListener("blur", function() {
+        if (step.id === "loan_amount") {
+          input.value = formatMoney(input.value);
+          state[step.id] = input.value;
+        }
+      });
+      setTimeout(function() { input.focus(); }, 30);
+    }
+
+    function renderLocation(body, step) {
+      const grid = document.createElement("div");
+      grid.className = "field-grid two";
+      step.fields.forEach(function(field) {
+        const wrapper = document.createElement("div");
+        wrapper.className = "field";
+        wrapper.innerHTML =
+          '<label for="' + field.id + '">' + field.label + '</label>' +
+          '<input id="' + field.id + '" type="text" inputmode="' + (field.inputMode || "text") + '" placeholder="' + field.placeholder + '" value="' + (state[field.id] || "") + '">' +
+          '<span class="error" id="' + field.id + 'Error"></span>';
+        grid.appendChild(wrapper);
+      });
+      body.appendChild(grid);
+
+      step.fields.forEach(function(field) {
+        const input = document.getElementById(field.id);
+        input.addEventListener("input", function() {
+          state[field.id] = input.value;
+        });
+      });
+      setTimeout(function() { document.getElementById("property_zip").focus(); }, 30);
+    }
+
+    function renderUnlock(body) {
+      const layout = document.createElement("div");
+      layout.className = "unlock-layout";
+
+      const unlock = document.createElement("div");
+      unlock.className = "unlock-card";
+      var loanPath = inferLoanPath();
+      var propertyLabel = state.propertytypelabel || "Investment property";
+      var locationHint = state.propertyzip ? "Active in " + state.propertyzip.slice(0,3) + "XX area" : "Matched to your deal location";
+      var ltvHint = (state.creditscore === "excellent" || state.creditscore === "good") ? "Up to 80% LTV" : "Up to 75% LTV";
+      var termHint = (state.financinggoal === "fixflip" || state.financinggoal === "bridge") ? "12–24 mo term" : "30-year term";
+      var programLabel = loanPath;
+
+      unlock.innerHTML =
+        '<div class="unlock-head"><strong>Your lender match</strong><span class="status unlock-ready-badge">&#10003; 1 Match Found</span></div>' +
+        '<div class="unlock-body">' +
+          '<div class="locked-match" aria-label="Locked lender match preview">' +
+            '<div class="locked-match-top">' +
+              '<div>' +
+                '<strong style="font-size:15px;display:block;margin-bottom:3px;">Matched lender details</strong>' +
+                '<span style="font-size:12px;color:var(--muted);">Unlock full details by submitting your contact info below</span>' +
+              '</div>' +
+              '<span style="font-size:20px;" aria-hidden="true">&#128274;</span>' +
+            '</div>' +
+            '<div class="match-details match-details-6">' +
+              lockedMatchCellPartial("Loan Program", programLabel, false) +
+              lockedMatchCellPartial("Max LTV", ltvHint, false) +
+              lockedMatchCellPartial("Loan Term", termHint, false) +
+              lockedMatchCellPartial("Lender Name", "Private investor lender", true) +
+              lockedMatchCellPartial("Min. Loan", "$150K+", true) +
+              lockedMatchCellPartial("Contact", "Direct intro on submit", true) +
+            '</div>' +
+            '<div class="match-why-strip">' +
+              '<span class="match-why-label">Why this match?</span>' +
+              '<span class="match-why-text">' + locationHint + ' &middot; ' + propertyLabel + ' &middot; ' + ltvHint + '</span>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      layout.appendChild(unlock);
+
+      const fields = document.createElement("div");
+      fields.className = "field-grid";
+      fields.innerHTML =
+        '<div class="field-grid two">' +
+          '<div class="field"><label for="name">Full name</label><input id="name" type="text" autocomplete="name" placeholder="Jordan Smith" value="' + (state.name || "") + '"><span class="error" id="nameError"></span></div>' +
+          '<div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="email" placeholder="jordan@example.com" value="' + (state.email || "") + '"><span class="error" id="emailError"></span></div>' +
+        '</div>' +
+        '<div class="field"><label for="phone">Phone</label><input id="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="(555) 555-0123" value="' + (state.phone || "") + '"><span class="error" id="phoneError"></span></div>';
+      layout.appendChild(fields);
+
+      body.appendChild(layout);
+
+      ["name", "email", "phone"].forEach(function(id) {
+        document.getElementById(id).addEventListener("input", function(event) {
+          state[id] = event.target.value;
+        });
+      });
+    }
+
+    function lockedRow(label) {
+      return '' +
+        '<div class="locked-row">' +
+          '<span>' + label + '</span>' +
+          '<span class="blur-bars"><span class="bar medium"></span><span class="bar short"></span></span>' +
+        '</div>';
+    }
+
+    function lockedMatchCell(label, value) {
+      return lockedMatchCellPartial(label, value, true);
+    }
+
+    function lockedMatchCellPartial(label, value, blurred) {
+      return '' +
+        '<div class="match-cell' + (blurred ? ' match-cell-blurred' : ' match-cell-visible') + '">' +
+          '<span>' + label + '</span>' +
+          '<div class="' + (blurred ? 'locked-match-copy' : 'visible-match-copy') + '">' +
+            '<strong>' + value + '</strong>' +
+          '</div>' +
+        '</div>';
+    }
+
+    function renderActions(body, step) {
+      const actions = document.createElement("div");
+      actions.className = "form-actions" + (step.type === "choice" ? " choice-only" : "") + (step.type === "unlock" ? " unlock-actions" : "");
+
+      const back = document.createElement("button");
+      back.type = "button";
+      back.className = "btn btn-secondary";
+      back.textContent = currentStep === 0 ? "Start over" : "Back";
+      back.addEventListener("click", function() {
+        if (currentStep === 0) {
+          Object.keys(state).forEach(function(key) { delete state[key]; });
+          track("form_reset", {});
+          render();
+          return;
+        }
+        currentStep = previousVisibleIndex(currentStep);
+        render();
+        stepView();
+      });
+      if (currentStep > 0 || step.type !== "choice") {
+        actions.appendChild(back);
+      }
+
+      if (step.type === "choice") {
+        const note = document.createElement("span");
+        note.className = "tap-note";
+        note.textContent = "Select one to continue";
+        actions.appendChild(note);
+        body.appendChild(actions);
+        return;
+      }
+
+      const next = document.createElement("button");
+      next.type = "button";
+      next.className = "btn btn-primary";
+      next.textContent = step.type === "unlock" ? "Unlock My Lender Match →" : "Continue";
+      next.addEventListener("click", function() {
+        if (step.type === "unlock") {
+          submitForm();
+        } else {
+          advanceFromButton(step);
+        }
+      });
+      actions.appendChild(next);
+
+      if (step.type === "unlock") {
+        const consent = document.createElement("label");
+        consent.className = "consent-inline";
+        consent.innerHTML =
+          '<input id="consent" type="checkbox" ' + (state.consent ? "checked" : "") + '>' +
+          '<span>By submitting, I consent to receive calls, texts, and emails from REinvestorguide, My Perfect Leads, LLC, and the matched lending partner about investor financing options. Consent is not a condition of purchase. Message and data rates may apply. Reply STOP to opt out. See the <a href="/privacy-policy">Privacy Policy</a> and <a href="/terms-of-use">Terms of Use</a>.</span>' +
+          '<span class="error" id="consentError"></span>';
+        actions.appendChild(consent);
+      }
+
+      body.appendChild(actions);
+
+      if (step.type === "unlock") {
+        document.getElementById("consent").addEventListener("change", function(event) {
+          state.consent = event.target.checked;
+        });
+      }
+    }
+
+    function advanceFromButton(step) {
+      startFormIfNeeded();
+
+      if (step.type === "choice" && !state[step.id]) {
+        track("form_error", { field_group: step.stage, field_name: step.id, error_type: "missing_choice" });
+        return;
+      }
+
+      if (step.type === "input") {
+        const input = document.getElementById(step.id);
+        state[step.id] = input.value;
+        const message = step.validate ? step.validate(input.value) : "";
+        document.getElementById(step.id + "Error").textContent = message;
+        if (message) {
+          track("form_error", { field_group: step.stage, field_name: step.id, error_type: "validation" });
+          return;
+        }
+        input.value = formatMoney(input.value);
+        state[step.id] = input.value;
+        track("form_step_complete", {
+          field_group: step.stage,
+          step_name: step.id,
+          selected_option: state[step.id],
+          lead_type_inferred: inferLoanPath()
+        });
+      }
+
+      if (step.type === "deal_size") {
+        const input = document.getElementById("loan_amount");
+        state.loan_amount = input.value;
+        const digits = state.loan_amount.replace(/[^0-9]/g, "");
+        const propertyMessage = state.property_value ? "" : "Choose the closest property value range.";
+        const loanMessage = digits && Number(digits) >= 10000 ? "" : "Enter an estimated loan amount of at least $10,000.";
+        document.getElementById("property_valueError").textContent = propertyMessage;
+        document.getElementById("loan_amountError").textContent = loanMessage;
+        if (propertyMessage || loanMessage) {
+          track("form_error", { field_group: step.stage, field_name: "deal_size", error_type: "validation" });
+          return;
+        }
+        input.value = formatMoney(input.value);
+        state.loan_amount = input.value;
+        track("form_step_complete", {
+          field_group: step.stage,
+          step_name: step.id,
+          selected_option: state.property_value_label + " / " + state.loan_amount,
+          lead_type_inferred: inferLoanPath()
+        });
+      }
+
+      if (step.type === "realtor_section") {
+        const needsMatchAnswer = state.realtor_status === "no";
+        const message = state.realtor_status && (!needsMatchAnswer || state.realtor_match) ? "" : "Choose your realtor status" + (needsMatchAnswer ? " and match preference." : ".");
+        document.getElementById("realtorError").textContent = message;
+        if (message) {
+          track("form_error", { field_group: step.stage, field_name: "realtor", error_type: "validation" });
+          return;
+        }
+        track("form_step_complete", {
+          field_group: step.stage,
+          step_name: step.id,
+          selected_option: state.realtor_status_label + (state.realtor_match_label ? " / " + state.realtor_match_label : ""),
+          lead_type_inferred: inferLoanPath()
+        });
+      }
+
+      if (step.type === "credit_section") {
+        const message = state.credit_score && state.credit_event ? "" : "Choose a credit score range and yes/no answer.";
+        document.getElementById("credit_sectionError").textContent = message;
+        if (message) {
+          track("form_error", { field_group: step.stage, field_name: "credit_section", error_type: "validation" });
+          return;
+        }
+        track("form_step_complete", {
+          field_group: step.stage,
+          step_name: step.id,
+          selected_option: state.credit_score_label + " / " + state.credit_event_label,
+          lead_type_inferred: inferLoanPath()
+        });
+      }
+
+      if (step.type === "location") {
+        const zip = (document.getElementById("property_zip").value || "").trim();
+        state.property_zip = zip;
+        state.property_address = (document.getElementById("property_address").value || "").trim();
+        const message = /^[0-9]{5}$/.test(zip) ? "" : "Enter a 5-digit ZIP code so we can match lenders in the right market.";
+        document.getElementById("property_zipError").textContent = message;
+        if (message) {
+          track("form_error", { field_group: step.stage, field_name: "property_zip", error_type: "validation" });
+          return;
+        }
+        track("form_step_complete", {
+          field_group: step.stage,
+          step_name: step.id,
+          selected_option: zip,
+          lead_type_inferred: inferLoanPath()
+        });
+      }
+
+      nextStep();
+    }
+
+    function nextStep() {
+      if (currentStep < steps.length - 1) {
+        currentStep = nextVisibleIndex(currentStep);
+        render();
+        stepView();
+      }
+    }
+
+    function submitForm() {
+      startFormIfNeeded();
+
+      const checks = [
+        ["name", "Enter your full name."],
+        ["email", "Enter a valid email address."],
+        ["phone", "Enter a valid phone number."]
+      ];
+      let hasError = false;
+
+      checks.forEach(function(check) {
+        const id = check[0];
+        const input = document.getElementById(id);
+        state[id] = input.value.trim();
+        let valid = !!state[id];
+        if (id === "email") valid = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(state[id]);
+        if (id === "phone") valid = state[id].replace(/[^0-9]/g, "").length >= 10;
+        const message = valid ? "" : check[1];
+        document.getElementById(id + "Error").textContent = message;
+        if (message) {
+          hasError = true;
+          track("form_error", { field_name: id, error_type: "validation", field_group: "Contact" });
+        }
+      });
+
+      state.consent = document.getElementById("consent").checked;
+      document.getElementById("consentError").textContent = state.consent ? "" : "Consent is required to send your matched options.";
+      if (!state.consent) {
+        hasError = true;
+        track("form_error", { field_name: "tcpa_consent", error_type: "missing_consent", field_group: "Contact" });
+      }
+
+      if (hasError) return;
+
+      track("form_submit", {
+        field_group: "Contact",
+        lead_type_inferred: inferLoanPath(),
+        loan_amount_bucket: state.loan_amount,
+        property_zip: state.property_zip,
+        consent_present: true
+      });
+
+      track("lead_submission_success", {
+        lead_id: "prototype-" + Date.now(),
+        route_result: "prototype_success",
+        lead_type_inferred: inferLoanPath(),
+        qualification_status: "usable_prototype_lead"
+      });
+
+      submitted = true;
+      renderSuccess();
+    }
+
+    function renderSuccess() {
+      document.getElementById("stageName").textContent = "Complete";
+      document.getElementById("stepCount").textContent = "Done";
+      document.getElementById("progressFill").style.width = "100%";
+      document.getElementById("formBody").innerHTML =
+        '<div class="success">' +
+          '<div>' +
+            '<div class="success-mark" aria-hidden="true"></div>' +
+            '<h2 style="margin-top: 18px;">Your lender match request is ready.</h2>' +
+            '<p class="helper" style="margin: 10px auto 0;">We will use these details to connect you with the matched lending partner.</p>' +
+          '</div>' +
+          '<button class="btn btn-secondary" type="button" id="restart">Start another scenario</button>' +
+        '</div>';
+      updateVisuals();
+      document.getElementById("restart").addEventListener("click", function() {
+        Object.keys(state).forEach(function(key) { delete state[key]; });
+        currentStep = 0;
+        submitted = false;
+        formStarted = false;
+        render();
+        stepView();
+      });
+    }
+
+    render();
+    stepView();
+  </script>
+</body>
+</html>

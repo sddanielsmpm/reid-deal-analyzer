@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deal Workbench | REinvestorGuide</title>
+  <link rel="stylesheet" href="./assets/deal-workbench.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-lockup" aria-label="REinvestorGuide">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>REinvestor<span>guide</span></span>
+      </div>
+      <div class="account-strip" aria-label="Workspace and plan">
+        <span class="tenant-pill">REIG Demo Workspace</span>
+        <span class="plan-pill">Free plan: 1 of 3 deals</span>
+        <button class="ghost-button" type="button" data-save-draft>Save Draft</button>
+      </div>
+    </header>
+
+    <main class="workbench">
+      <section class="intake-panel" aria-labelledby="intake-title">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Deal Workbench</p>
+            <h1 id="intake-title">Rental deal intake</h1>
+          </div>
+          <span class="save-status" data-save-status aria-live="polite"></span>
+        </div>
+
+        <nav class="step-rail" aria-label="Deal intake sections">
+          <button class="step-chip is-active" type="button" data-step-target="property">Property</button>
+          <button class="step-chip" type="button" data-step-target="income">Income</button>
+          <button class="step-chip" type="button" data-step-target="expenses">Expenses</button>
+          <button class="step-chip" type="button" data-step-target="leverage">Leverage</button>
+          <button class="step-chip" type="button" data-step-target="strategy">Strategy</button>
+        </nav>
+
+        <form class="deal-form" data-deal-form>
+          <section class="form-section" id="property" aria-labelledby="property-title">
+            <div class="section-title">
+              <span>01</span>
+              <h2 id="property-title">Property</h2>
+            </div>
+            <div class="field-grid two">
+              <label>
+                <span>Deal name</span>
+                <input type="text" data-field="dealName" autocomplete="off">
+              </label>
+              <label>
+                <span>Property type</span>
+                <select data-field="propertyType">
+                  <option value="sfr">Single-family rental</option>
+                  <option value="small_multifamily">Small multifamily (2-4 units)</option>
+                </select>
+              </label>
+              <label>
+                <span>Address or market</span>
+                <input type="text" data-field="address" autocomplete="off">
+              </label>
+              <label>
+                <span>Units</span>
+                <input type="number" min="1" max="4" step="1" data-field="unitCount">
+              </label>
+              <label>
+                <span>Purchase price</span>
+                <input type="number" min="0" step="1000" data-field="purchasePrice">
+              </label>
+              <label>
+                <span>Current value</span>
+                <input type="number" min="0" step="1000" data-field="currentValue">
+              </label>
+              <label>
+                <span>Rehab budget</span>
+                <input type="number" min="0" step="1000" data-field="rehabBudget">
+              </label>
+              <label>
+                <span>Closing costs</span>
+                <input type="number" min="0" step="500" data-field="closingCosts">
+              </label>
+            </div>
+          </section>
+
+          <section class="form-section" id="income" aria-labelledby="income-title">
+            <div class="section-title">
+              <span>02</span>
+              <h2 id="income-title">Income</h2>
+            </div>
+            <div class="field-grid three">
+              <label>
+                <span>Gross monthly rent</span>
+                <input type="number" min="0" step="50" data-field="grossMonthlyRent">
+              </label>
+              <label>
+                <span>Other monthly income</span>
+                <input type="number" min="0" step="25" data-field="otherMonthlyIncome">
+              </label>
+              <label>
+                <span>Vacancy</span>
+                <input type="number" min="0" max="100" step="0.5" data-field="vacancyRate">
+              </label>
+            </div>
+          </section>
+
+          <section class="form-section" id="expenses" aria-labelledby="expenses-title">
+            <div class="section-title">
+              <span>03</span>
+              <h2 id="expenses-title">Expenses</h2>
+            </div>
+            <div class="field-grid three">
+              <label>
+                <span>Property taxes yearly</span>
+                <input type="number" min="0" step="100" data-field="propertyTaxesAnnual">
+              </label>
+              <label>
+                <span>Insurance yearly</span>
+                <input type="number" min="0" step="100" data-field="insuranceAnnual">
+              </label>
+              <label>
+                <span>Management</span>
+                <input type="number" min="0" max="100" step="0.5" data-field="managementRate">
+              </label>
+              <label>
+                <span>Repairs monthly</span>
+                <input type="number" min="0" step="25" data-field="repairsMonthly">
+              </label>
+              <label>
+                <span>Utilities monthly</span>
+                <input type="number" min="0" step="25" data-field="utilitiesMonthly">
+              </label>
+              <label>
+                <span>HOA monthly</span>
+                <input type="number" min="0" step="25" data-field="hoaMonthly">
+              </label>
+              <label>
+                <span>Capex reserve monthly</span>
+                <input type="number" min="0" step="25" data-field="capexMonthly">
+              </label>
+            </div>
+          </section>
+
+          <section class="form-section" id="leverage" aria-labelledby="leverage-title">
+            <div class="section-title">
+              <span>04</span>
+              <h2 id="leverage-title">Leverage</h2>
+            </div>
+            <div class="field-grid four">
+              <label>
+                <span>Down payment</span>
+                <input type="number" min="0" max="100" step="0.5" data-field="downPaymentPct">
+              </label>
+              <label>
+                <span>Interest rate</span>
+                <input type="number" min="0" max="25" step="0.125" data-field="interestRate">
+              </label>
+              <label>
+                <span>Amortization years</span>
+                <input type="number" min="1" max="40" step="1" data-field="loanTermYears">
+              </label>
+              <label>
+                <span>Lender points</span>
+                <input type="number" min="0" max="10" step="0.25" data-field="lenderPointsPct">
+              </label>
+            </div>
+          </section>
+
+          <section class="form-section" id="strategy" aria-labelledby="strategy-title">
+            <div class="section-title">
+              <span>05</span>
+              <h2 id="strategy-title">Strategy</h2>
+            </div>
+            <div class="field-grid">
+              <label>
+                <span>Investor strategy</span>
+                <select data-field="strategy">
+                  <option value="buy_hold">Buy and hold rental</option>
+                  <option value="light_rehab">Light rehab rental</option>
+                  <option value="stabilize_refi">Stabilize and refinance</option>
+                  <option value="house_hack">Owner-occupied house hack</option>
+                </select>
+              </label>
+              <label>
+                <span>Lender notes</span>
+                <textarea rows="4" data-field="notes"></textarea>
+              </label>
+            </div>
+          </section>
+        </form>
+      </section>
+
+      <aside class="analysis-panel" aria-label="Deal analysis">
+        <section class="metric-panel" aria-labelledby="metrics-title">
+          <div class="panel-title-row">
+            <div>
+              <p class="eyebrow">Live Analysis</p>
+              <h2 id="metrics-title">Core metrics</h2>
+            </div>
+            <div class="grade-panel" data-grade-panel>
+              <span data-grade-label></span>
+              <strong data-grade-summary></strong>
+              <div class="grade-track" aria-hidden="true"><span data-grade-bar></span></div>
+            </div>
+          </div>
+          <div class="metric-grid" data-key-metrics></div>
+        </section>
+
+        <section class="scenario-panel" aria-labelledby="scenario-title">
+          <div class="panel-title-row">
+            <div>
+              <p class="eyebrow">Scenarios</p>
+              <h2 id="scenario-title">Compare structures</h2>
+            </div>
+            <div class="clone-actions" aria-label="Clone scenario presets">
+              <button type="button" data-clone="higher_down">Higher Down</button>
+              <button type="button" data-clone="lower_price">Lower Price</button>
+              <button type="button" data-clone="lower_rate">Lower Rate</button>
+              <button type="button" data-clone="custom">Custom</button>
+            </div>
+          </div>
+          <div class="scenario-list" data-scenario-list></div>
+        </section>
+
+        <section class="report-panel" aria-labelledby="report-title">
+          <div class="report-actions">
+            <div>
+              <p class="eyebrow">Lender PDF</p>
+              <h2 id="report-title">Lender-ready report</h2>
+            </div>
+            <div class="report-buttons">
+              <button type="button" data-export-pdf>Export PDF</button>
+              <button type="button" data-share-link>Copy Link</button>
+            </div>
+          </div>
+
+          <input class="share-output" type="text" data-share-output hidden readonly aria-label="Shareable deal link">
+
+          <article class="report-document" data-report-document>
+            <header class="report-cover">
+              <div>
+                <p class="eyebrow">Executive Summary</p>
+                <h3 data-report-summary></h3>
+              </div>
+              <div class="report-meta" data-report-meta></div>
+            </header>
+
+            <div class="report-grid">
+              <section>
+                <h4>Core metrics</h4>
+                <table>
+                  <tbody data-report-metrics></tbody>
+                </table>
+              </section>
+              <section>
+                <h4>Income</h4>
+                <table>
+                  <tbody data-income-breakdown></tbody>
+                </table>
+              </section>
+              <section>
+                <h4>Expenses</h4>
+                <table>
+                  <tbody data-expense-breakdown></tbody>
+                </table>
+              </section>
+              <section>
+                <h4>Leverage</h4>
+                <table>
+                  <tbody data-debt-breakdown></tbody>
+                </table>
+              </section>
+            </div>
+
+            <section class="comparison-table-wrap">
+              <h4>Scenario comparison</h4>
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th>Scenario</th>
+                    <th>Purchase</th>
+                    <th>Down</th>
+                    <th>Rate</th>
+                    <th>DSCR</th>
+                    <th>LTV</th>
+                    <th>Cash flow</th>
+                    <th>Grade</th>
+                  </tr>
+                </thead>
+                <tbody data-comparison-body></tbody>
+              </table>
+            </section>
+          </article>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <script src="./assets/deal-calculations.js"></script>
+  <script src="./assets/deal-workbench-app.js"></script>
+</body>
+</html>

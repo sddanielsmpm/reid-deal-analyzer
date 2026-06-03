@@ -1,0 +1,13 @@
+.DS_Store
+node_modules/
+.venv/
+.env
+.env.*
+!.env.example
+dist/
+build/
+.next/
+coverage/
+*.log
+archive/tmp/
+reports/visual-audit/*.png

@@ -55,11 +55,36 @@ Primary metrics:
 - Cash-on-cash return
 - Break-even occupancy
 
+## Estimate Data Layer
+
+The prototype includes a client-side local estimate assist that applies ZIP/state rent, tax, insurance, management, repairs, utility, and capex assumptions. It also embeds the Steadily partner instant-estimate widget for landlord insurance and applies the returned premium to the insurance assumption when available.
+
+For production, move this into a backend estimate service. The browser should submit a normalized property address and high-level property details, then the backend should return assumptions, source metadata, confidence, and fallback reasons.
+
+Recommended source stack:
+
+- Rent estimates and rent comps: RentCast rent estimate/comps, ATTOM Rental AVM, or a similar rental AVM provider.
+- Rent fallback: HUD Fair Market Rent or Small Area FMR data by bedroom/ZIP/county when true comps are unavailable.
+- Property taxes: ATTOM assessment/tax value data, county assessor integrations where available, then effective tax-rate fallback by jurisdiction.
+- Insurance: Steadily Partner API or Steadily widget result for landlord insurance.
+- Management, repairs, utilities, and capex: REIG assumption tables by market, property type, unit count, age, condition, and strategy.
+
+The estimate service should store:
+
+- `source`: provider or model name for each assumption.
+- `confidence`: high, medium, low.
+- `range_low` and `range_high`: especially for rent, taxes, insurance, repairs, and capex.
+- `as_of_date`: when the estimate was fetched or calculated.
+- `raw_provider_id`: provider record ID, parcel ID, or quote ID when available.
+
+Do not expose provider API keys in the public app. Cache provider responses by normalized address and provider terms, and refresh stale estimate snapshots on demand rather than changing saved lender reports automatically.
+
 ## API Shape
 
 Recommended routes:
 
 ```text
+POST   /api/estimate-assumptions
 POST   /api/tenants/:tenant_id/deals
 GET    /api/tenants/:tenant_id/deals
 GET    /api/tenants/:tenant_id/deals/:deal_id

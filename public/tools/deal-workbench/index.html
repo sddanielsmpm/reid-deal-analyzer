@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Deal Workbench | REinvestorGuide</title>
   <link rel="stylesheet" href="./assets/deal-workbench.css">
+  <script src="https://reinvestorguide.steadilypartner.com/partner/v3.js" async defer></script>
 </head>
 <body>
   <div class="app-shell">
@@ -57,8 +58,24 @@
                 </select>
               </label>
               <label>
-                <span>Address or market</span>
-                <input type="text" data-field="address" autocomplete="off">
+                <span>Street address</span>
+                <input type="text" data-field="streetAddress" autocomplete="street-address">
+              </label>
+              <label>
+                <span>Unit or suite</span>
+                <input type="text" data-field="streetAddress2" autocomplete="address-line2">
+              </label>
+              <label>
+                <span>City</span>
+                <input type="text" data-field="city" autocomplete="address-level2">
+              </label>
+              <label>
+                <span>State</span>
+                <input type="text" maxlength="2" data-field="state" autocomplete="address-level1">
+              </label>
+              <label>
+                <span>ZIP code</span>
+                <input type="text" inputmode="numeric" maxlength="10" data-field="postalCode" autocomplete="postal-code">
               </label>
               <label>
                 <span>Units</span>
@@ -80,6 +97,42 @@
                 <span>Closing costs</span>
                 <input type="number" min="0" step="500" data-field="closingCosts">
               </label>
+            </div>
+
+            <div class="estimate-assist" aria-labelledby="estimate-title">
+              <div class="estimate-assist-head">
+                <div>
+                  <p class="eyebrow">Local Estimates</p>
+                  <h3 id="estimate-title">Market-based assumptions</h3>
+                </div>
+                <button class="estimate-action" type="button" data-estimate-assumptions>Apply Estimates</button>
+              </div>
+
+              <div class="estimate-grid" data-estimate-summary></div>
+
+              <div class="estimate-source-row">
+                <span data-estimate-source></span>
+                <span data-steadily-status></span>
+              </div>
+
+              <div class="steadily-panel">
+                <div class="steadily-panel-head">
+                  <p class="eyebrow">Insurance</p>
+                  <h4>Steadily landlord estimate</h4>
+                </div>
+                <div class="steadily-shell" data-steadily-widget>
+                  <div
+                    class="steadily-instant-estimate"
+                    data-product="landlord-insurance"
+                    data-street_address=""
+                    data-street_address_2=""
+                    data-city=""
+                    data-state=""
+                    data-postal_code=""
+                    data-button-text="Add Insurance"
+                    style-primary-color="#1973ce"></div>
+                </div>
+              </div>
             </div>
           </section>
 

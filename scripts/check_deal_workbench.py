@@ -26,6 +26,15 @@ def main() -> None:
         page = browser.new_page(viewport={"width": 1280, "height": 960}, device_scale_factor=1)
         page.goto(url)
 
+        expect(page.get_by_text("Market-based assumptions")).to_be_visible()
+        estimates = page.evaluate("() => window.DealWorkbench.estimateBase().fields")
+        assert estimates["grossMonthlyRent"] > 0
+        assert estimates["propertyTaxesAnnual"] > 0
+        assert estimates["insuranceAnnual"] > 0
+
+        page.get_by_role("button", name="Apply Estimates").click()
+        assert int(page.locator("[data-field='grossMonthlyRent']").input_value()) == estimates["grossMonthlyRent"]
+
         engine = page.evaluate(
             """() => {
                 const result = window.DealCalculations.calculateDeal({

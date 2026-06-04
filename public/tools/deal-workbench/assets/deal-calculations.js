@@ -2,30 +2,35 @@
   "use strict";
 
   var DEFAULT_DEAL = {
-    dealName: "Detroit duplex acquisition",
-    propertyType: "small_multifamily",
-    address: "48226 sample deal",
-    unitCount: 2,
+    dealName: "Tolleson SFR acquisition",
+    propertyType: "sfr",
+    address: "2212 S 101ST Dr, Tolleson, AZ 85353",
+    streetAddress: "2212 S 101ST Dr",
+    streetAddress2: "",
+    city: "Tolleson",
+    state: "AZ",
+    postalCode: "85353",
+    unitCount: 1,
     strategy: "buy_hold",
     purchasePrice: 325000,
     currentValue: 340000,
     rehabBudget: 18000,
     closingCosts: 8500,
-    grossMonthlyRent: 3150,
+    grossMonthlyRent: 1850,
     otherMonthlyIncome: 80,
     vacancyRate: 5,
-    propertyTaxesAnnual: 4200,
-    insuranceAnnual: 1800,
+    propertyTaxesAnnual: 2050,
+    insuranceAnnual: 1850,
     managementRate: 8,
     repairsMonthly: 220,
     utilitiesMonthly: 0,
     hoaMonthly: 0,
-    capexMonthly: 180,
+    capexMonthly: 175,
     downPaymentPct: 25,
     interestRate: 7.25,
     loanTermYears: 30,
     lenderPointsPct: 1,
-    notes: "Stabilized 2-unit rental with light turn budget and conventional DSCR loan sizing."
+    notes: "SFR rental acquisition with local rent and expense estimates plus conventional DSCR loan sizing."
   };
 
   var STRATEGY_LABELS = {
@@ -83,6 +88,24 @@
     ].forEach(function normalizeNumber(field) {
       deal[field] = toNumber(deal[field], DEFAULT_DEAL[field]);
     });
+
+    [
+      "dealName",
+      "propertyType",
+      "address",
+      "streetAddress",
+      "streetAddress2",
+      "city",
+      "state",
+      "postalCode",
+      "strategy",
+      "notes"
+    ].forEach(function normalizeString(field) {
+      deal[field] = String(deal[field] == null ? "" : deal[field]).trim();
+    });
+
+    deal.state = deal.state.toUpperCase().slice(0, 2);
+    deal.postalCode = deal.postalCode.slice(0, 10);
 
     deal.unitCount = clamp(Math.round(deal.unitCount || 1), 1, 4);
     deal.vacancyRate = clamp(deal.vacancyRate, 0, 100);

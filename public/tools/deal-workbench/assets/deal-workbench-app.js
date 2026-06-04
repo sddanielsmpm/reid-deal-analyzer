@@ -28,6 +28,10 @@
   var steadilySignature = "";
   var steadilyPremiumSignature = "";
   var steadilyObserver = null;
+  var googleAddressAutocomplete = null;
+  var googleAddressStatus = "not_configured";
+  var googleMapsLoaderPromise = null;
+  var googleMapsCallbackName = "__reigDealWorkbenchGoogleMapsReady";
 
   var DEFAULT_MARKET_PROFILE = {
     label: "National rental baseline",
@@ -259,6 +263,171 @@
     if (field) {
       field.value = value;
     }
+  }
+
+  function configuredGoogleMapsKey() {
+    var config = global.REIG_DEAL_WORKBENCH_CONFIG || {};
+    var params = new URLSearchParams(window.location.search);
+    var queryKey = params.get("google_maps_key") || params.get("googleMapsKey");
+
+    if (queryKey) {
+      localStorage.setItem("reig:google-maps-browser-key", queryKey);
+      params.delete("google_maps_key");
+      params.delete("googleMapsKey");
+
+      var cleanUrl = new URL(window.location.href);
+      cleanUrl.search = params.toString();
+      window.history.replaceState(null, "", cleanUrl.toString());
+      return queryKey;
+    }
+
+    return config.googleMapsApiKey ||
+      config.googleMapsBrowserKey ||
+      localStorage.getItem("reig:google-maps-browser-key") ||
+      "";
+  }
+
+  function loadGoogleMapsPlaces(apiKey) {
+    if (global.google && global.google.maps && global.google.maps.places) {
+      return Promise.resolve(global.google);
+    }
+
+    if (googleMapsLoaderPromise) {
+      return googleMapsLoaderPromise;
+    }
+
+    googleMapsLoaderPromise = new Promise(function load(resolve, reject) {
+      global[googleMapsCallbackName] = function onGoogleMapsReady() {
+        resolve(global.google);
+      };
+
+      var script = document.createElement("script");
+      script.async = true;
+      script.defer = true;
+      script.src = "https://maps.googleapis.com/maps/api/js?key=" +
+        encodeURIComponent(apiKey) +
+        "&loading=async&libraries=places&callback=" +
+        encodeURIComponent(googleMapsCallbackName);
+      script.onerror = function onGoogleMapsError() {
+        reject(new Error("Google Maps JavaScript API failed to load."));
+      };
+      document.head.appendChild(script);
+    });
+
+    return googleMapsLoaderPromise;
+  }
+
+  function initGoogleAddressAutocomplete() {
+    var input = form.querySelector("[data-field='streetAddress']");
+    var apiKey = configuredGoogleMapsKey();
+
+    if (!input || !apiKey) {
+      googleAddressStatus = "not_configured";
+      return;
+    }
+
+    googleAddressStatus = "loading";
+    loadGoogleMapsPlaces(apiKey).then(function attachAutocomplete() {
+      if (!global.google || !global.google.maps || !global.google.maps.places) {
+        googleAddressStatus = "error";
+        return;
+      }
+
+      googleAddressAutocomplete = new global.google.maps.places.Autocomplete(input, {
+        componentRestrictions: { country: "us" },
+        fields: ["address_components", "formatted_address", "geometry", "place_id"],
+        types: ["address"]
+      });
+
+      googleAddressAutocomplete.addListener("place_changed", function onPlaceChanged() {
+        var place = googleAddressAutocomplete.getPlace();
+        if (place && place.address_components) {
+          applyGooglePlace(place, true);
+        }
+      });
+
+      googleAddressStatus = "ready";
+    }).catch(function onAutocompleteError(error) {
+      googleAddressStatus = "error";
+      console.warn("Google address autocomplete unavailable", error);
+    });
+  }
+
+  function applyGooglePlace(place, refresh) {
+    var parsed = parseGoogleAddress(place.address_components || []);
+    var streetLine = [parsed.streetNumber, parsed.route].filter(Boolean).join(" ");
+    var city = parsed.city || parsed.neighborhood || parsed.county;
+    var zip = [parsed.postalCode, parsed.postalSuffix].filter(Boolean).join("-");
+
+    if (streetLine) {
+      setFormField("streetAddress", streetLine);
+    }
+    if (parsed.subpremise) {
+      setFormField("streetAddress2", parsed.subpremise);
+    }
+    if (city) {
+      setFormField("city", city);
+    }
+    if (parsed.state) {
+      setFormField("state", parsed.state);
+    }
+    if (zip) {
+      setFormField("postalCode", zip);
+    }
+
+    readFormIntoBase();
+    var baseDeal = getBaseScenario().deal;
+    baseDeal.googlePlaceId = place.place_id || "";
+    baseDeal.formattedAddress = place.formatted_address || composeAddress(baseDeal);
+    baseDeal.addressVerifiedAt = new Date().toISOString();
+    baseDeal.addressVerificationSource = "google_places_autocomplete";
+    baseDeal.address = baseDeal.formattedAddress || composeAddress(baseDeal);
+
+    if (refresh) {
+      render();
+      updateSteadilyWidget(true);
+      saveStatus.textContent = "Address selected";
+      window.setTimeout(function clearAddressStatus() {
+        if (saveStatus.textContent === "Address selected") {
+          saveStatus.textContent = "";
+        }
+      }, 2200);
+    }
+
+    return baseDeal;
+  }
+
+  function parseGoogleAddress(components) {
+    var parsed = {};
+    components.forEach(function mapComponent(component) {
+      component.types.forEach(function assignType(type) {
+        if (!parsed[type]) {
+          parsed[type] = {
+            longName: component.long_name || "",
+            shortName: component.short_name || component.long_name || ""
+          };
+        }
+      });
+    });
+
+    return {
+      streetNumber: componentValue(parsed, "street_number"),
+      route: componentValue(parsed, "route"),
+      subpremise: componentValue(parsed, "subpremise"),
+      city: componentValue(parsed, "locality"),
+      neighborhood: componentValue(parsed, "neighborhood"),
+      county: componentValue(parsed, "administrative_area_level_2"),
+      state: componentValue(parsed, "administrative_area_level_1", true),
+      postalCode: componentValue(parsed, "postal_code"),
+      postalSuffix: componentValue(parsed, "postal_code_suffix")
+    };
+  }
+
+  function componentValue(parsed, type, shortName) {
+    if (!parsed[type]) {
+      return "";
+    }
+    return shortName ? parsed[type].shortName : parsed[type].longName;
   }
 
   function setStepActive(targetId) {
@@ -826,6 +995,7 @@
     bindEvents();
     render();
     updateSteadilyWidget(true);
+    initGoogleAddressAutocomplete();
   }
 
   global.DealWorkbench = {
@@ -841,6 +1011,12 @@
     estimateBase: function estimateBase() {
       readFormIntoBase();
       return buildLocalEstimates(getBaseScenario().deal);
+    },
+    getAddressAutocompleteStatus: function getAddressAutocompleteStatus() {
+      return googleAddressStatus;
+    },
+    applyGooglePlaceForTest: function applyGooglePlaceForTest(place) {
+      return applyGooglePlace(place, false);
     }
   };
 

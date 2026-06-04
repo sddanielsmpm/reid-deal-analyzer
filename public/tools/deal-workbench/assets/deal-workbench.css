@@ -469,6 +469,14 @@ textarea {
   min-height: 92px;
 }
 
+.pac-container {
+  z-index: 10000;
+  border-radius: var(--radius);
+  border-color: var(--line);
+  box-shadow: var(--shadow);
+  font-family: inherit;
+}
+
 input:focus,
 select:focus,
 textarea:focus {

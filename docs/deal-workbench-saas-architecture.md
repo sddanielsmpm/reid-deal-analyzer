@@ -61,6 +61,11 @@ The prototype includes a client-side local estimate assist that applies ZIP/stat
 
 For production, move this into a backend estimate service. The browser should submit a normalized property address and high-level property details, then the backend should return assumptions, source metadata, confidence, and fallback reasons.
 
+Address handling should use two layers:
+
+- Browser autocomplete: Google Maps JavaScript Places Autocomplete on the street-address field, using a browser key restricted by HTTP referrer to approved domains.
+- Server verification: Google Address Validation API from the backend after a user selects or submits an address, storing the formatted address, place ID, verdict, geocode, and deliverability metadata with the deal.
+
 Recommended source stack:
 
 - Rent estimates and rent comps: RentCast rent estimate/comps, ATTOM Rental AVM, or a similar rental AVM provider.

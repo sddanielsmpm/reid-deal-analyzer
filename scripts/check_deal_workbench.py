@@ -27,6 +27,7 @@ def main() -> None:
         page.goto(url)
 
         expect(page.get_by_text("Market-based assumptions")).to_be_visible()
+        assert page.evaluate("() => window.DealWorkbench.getAddressAutocompleteStatus()") == "not_configured"
         estimates = page.evaluate("() => window.DealWorkbench.estimateBase().fields")
         assert estimates["grossMonthlyRent"] > 0
         assert estimates["propertyTaxesAnnual"] > 0
@@ -34,6 +35,25 @@ def main() -> None:
 
         page.get_by_role("button", name="Apply Estimates").click()
         assert int(page.locator("[data-field='grossMonthlyRent']").input_value()) == estimates["grossMonthlyRent"]
+
+        selected_address = page.evaluate(
+            """() => window.DealWorkbench.applyGooglePlaceForTest({
+                place_id: "test-google-place-id",
+                formatted_address: "2212 S 101st Dr, Tolleson, AZ 85353, USA",
+                address_components: [
+                    { long_name: "2212", short_name: "2212", types: ["street_number"] },
+                    { long_name: "S 101st Dr", short_name: "S 101st Dr", types: ["route"] },
+                    { long_name: "Tolleson", short_name: "Tolleson", types: ["locality"] },
+                    { long_name: "Arizona", short_name: "AZ", types: ["administrative_area_level_1"] },
+                    { long_name: "85353", short_name: "85353", types: ["postal_code"] }
+                ]
+            })"""
+        )
+        assert selected_address["streetAddress"] == "2212 S 101st Dr"
+        assert selected_address["city"] == "Tolleson"
+        assert selected_address["state"] == "AZ"
+        assert selected_address["postalCode"] == "85353"
+        assert selected_address["googlePlaceId"] == "test-google-place-id"
 
         engine = page.evaluate(
             """() => {

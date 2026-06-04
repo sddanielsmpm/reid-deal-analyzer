@@ -10,6 +10,10 @@
     city: "Tolleson",
     state: "AZ",
     postalCode: "85353",
+    googlePlaceId: "",
+    formattedAddress: "",
+    addressVerifiedAt: "",
+    addressVerificationSource: "",
     unitCount: 1,
     strategy: "buy_hold",
     purchasePrice: 325000,
@@ -98,6 +102,10 @@
       "city",
       "state",
       "postalCode",
+      "googlePlaceId",
+      "formattedAddress",
+      "addressVerifiedAt",
+      "addressVerificationSource",
       "strategy",
       "notes"
     ].forEach(function normalizeString(field) {
